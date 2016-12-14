@@ -58,7 +58,7 @@ public class Velocidade {
 
         // definir o quanto vai ser defluido em cada usina
         for (int i = 0; i < volumeVazao.length; i++) {
-            for (int j = 0; j <= 3; j++) {
+            for (int j = 0; j < volumeVazao[0].length/2; j++) {
                 BigDecimal bd = new BigDecimal(numerosAleatorios[j]).setScale(11, RoundingMode.HALF_EVEN);
                 numerosAleatorios[j] = bd.doubleValue();
                 velocidadesIniciais[i][j] = -numerosAleatorios[j] * volumeVazao[i][j];
@@ -67,19 +67,19 @@ public class Velocidade {
 
         // cálculo das velocidades iniciais das partículas
         for (int i = 0; i < velocidadesIniciais.length; i++) {
-            for (int j = 4; j < velocidadesIniciais[0].length; j++) {
-                if (i == 0 && j == 4) {
-                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - 4] * fatorConversao);
-                } else if (j == 4) {
-                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - 4] * fatorConversao) + velocidadesIniciais[i - 1][j];
+            for (int j = volumeVazao[0].length/2; j < velocidadesIniciais[0].length; j++) {
+                if (i == 0 && j == volumeVazao[0].length/2) {
+                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - (volumeVazao[0].length/2)] * fatorConversao);
+                } else if (j == (volumeVazao[0].length/2)) {
+                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - (volumeVazao[0].length/2)] * fatorConversao) + velocidadesIniciais[i - 1][j];
                 }
 
-                if (i == 0 && j > 4) {
-                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - 4] - (-1) * velocidadesIniciais[i][j - 5]) * fatorConversao;
+                if (i == 0 && j > (volumeVazao[0].length/2)) {
+                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - (volumeVazao[0].length/2)] - (-1) * velocidadesIniciais[i][j - (volumeVazao[0].length/2) - 1]) * fatorConversao;
                 }
 
-                if (i != 0 && j > 4) {
-                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - 4] - (-1) * velocidadesIniciais[i][j - 5]) * fatorConversao + velocidadesIniciais[i - 1][j];
+                if (i != 0 && j > (volumeVazao[0].length/2)) {
+                    velocidadesIniciais[i][j] = ((-1) * velocidadesIniciais[i][j - (volumeVazao[0].length/2)] - (-1) * velocidadesIniciais[i][j - (volumeVazao[0].length/2) - 1]) * fatorConversao + velocidadesIniciais[i - 1][j];
                 }
             }
         }
@@ -87,7 +87,7 @@ public class Velocidade {
         // Exibição dos volumes
         for (int i = 0; i < velocidadesIniciais.length; i++) {
             System.out.println("");
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < (volumeVazao[0].length/2); j++) {
                 System.out.print(velocidadesIniciais[i][j] + ", ");
             }
         }
@@ -96,7 +96,7 @@ public class Velocidade {
         System.out.println();
         for (int i = 0; i < velocidadesIniciais.length; i++) {
             System.out.println("");
-            for (int j = 4; j < velocidadesIniciais[0].length; j++) {
+            for (int j = (volumeVazao[0].length/2); j < velocidadesIniciais[0].length; j++) {
                 System.out.print(velocidadesIniciais[i][j] + ", ");
             }
         }
@@ -105,10 +105,15 @@ public class Velocidade {
 
 
     public static void main(String[] args) {
-        double[][] volumeVazao = {{17190, 17190, 17190, 17190, 399, 306, 245, 196}, {17027, 17027, 17027, 17027, 1331, 1024, 817, 655}, {12540, 12540, 12540, 12540, 2084, 1623, 1309, 1067}};
-        double[] vazoesDefluentesMinimas = {77, 254, 480};
+        double[][] volumeVazao = {{17190, 17190, 17190, 17190, 17190, 17190, 17190, 17190, 17190, 17190, 17190, 17190,
+                                   399, 306, 245, 196, 173, 206, 356, 656, 894, 904, 863, 623}, 
+                                  
+                                  {17027, 17027, 17027, 17027, 17027, 17027, 17027, 17027, 17027, 17027, 17027, 17027, 
+                                   1331, 1024, 817, 655, 584, 704, 1147, 1971, 2727, 2850, 2765, 2043}, 
+                                  
+                                  {12540, 12540, 12540, 12540, 12540, 12540, 12540, 12540, 12540, 12540, 12540, 12540, 
+                                   2084, 1623, 1309, 1067, 974, 1148, 1766, 2951, 4055, 4253, 4183, 3156}};
 
         double[][] velocidadesIniciais = Velocidade.calculaVelocidadesIniciais(volumeVazao);
     }
-
 }
